@@ -5,54 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'My Laravel App')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url('/') }}">My Laravel App</a>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <!-- Première Navbar -->
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url('/') }}">My Laravel App</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="{{ url('/products') }}">All Products</a>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="{{ url('/about') }}">About</a>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                 </li>
+                <li>
+                    <a class="nav-link" href="{{ url('/order') }}">Panier</a>
+                </li>
             </ul>
-
-            <!-- Deuxième Navbar pour les liens d'authentification utilisateur -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="nav navbar-nav navbar-right">
                 @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Login</a>
+                    <li>
+                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Register</a>
+                    <li>
+                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Register</a>
                     </li>
                 @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <li class="dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href=""
-                               onclick="event.preventDefault();
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href=""
+                                   onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
+                                    Logout
+                                </a>
 
-                            <form id="logout-form" action="" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
+                                <form id="logout-form" action="" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 @endguest
             </ul>
@@ -62,7 +67,6 @@
     <div class="container mt-4">
         @yield('content')
     </div>
-
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
