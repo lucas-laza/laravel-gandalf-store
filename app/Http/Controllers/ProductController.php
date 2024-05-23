@@ -3,76 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
-    }
+        $categories = Category::all();
+        $category_id = $request->get('category_id');
+        $sort_by = $request->get('sort_by');
 
-    public function create()
-    {
-        return view('products.create');
-    }
+        $query = Product::query();
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'price' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image'
-        ]);
-
-        $product = new Product($request->all());
-
-        if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('images');
+        if ($category_id) {
+            $query->where('category_id', $category_id);
         }
 
-        $product->save();
-
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
-    }
-
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
-    }
-
-    public function edit(Product $product)
-    {
-        return view('products.edit', compact('product'));
-    }
-
-    public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'price' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image'
-        ]);
-
-        $product->fill($request->all());
-
-        if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('images');
+        if ($sort_by) {
+            if ($sort_by == 'price_asc') {
+                $query->orderBy('price', 'asc');
+            } elseif ($sort_by == 'price_desc') {
+                $query->orderBy('price', 'desc');
+            } elseif ($sort_by == 'popularity') {
+                $query->withCount('orders')
+                      ->orderBy('orders_count', 'desc');
+            }
         }
 
-        $product->save();
+        $products = $query->get();
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-    }
-
-    public function destroy(Product $product)
-    {
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return view('products.index', compact('products', 'categories', 'category_id', 'sort_by'));
     }
 }

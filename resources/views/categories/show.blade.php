@@ -1,24 +1,13 @@
 @extends('layout')
 
-@section('title', 'All Products')
+@section('title', $category->name . ' Products')
 
 @section('content')
     <div class="container">
-        <h1>All Products</h1>
-        
-        <form method="GET" action="{{ url('/products') }}" class="mb-4">
+        <h1>Products in {{ $category->name }}</h1>
+
+        <form method="GET" action="{{ url('/category/' . $category->name) }}" class="mb-4">
             <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <label class="sr-only" for="category_id">Category</label>
-                    <select name="category_id" id="category_id" class="form-control mb-2">
-                        <option value="">All Categories</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ (isset($category_id) && $category_id == $category->id) ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="col-auto">
                     <label class="sr-only" for="sort_by">Sort By</label>
                     <select name="sort_by" id="sort_by" class="form-control mb-2">

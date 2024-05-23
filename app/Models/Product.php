@@ -28,4 +28,11 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'product_orders')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
 }
