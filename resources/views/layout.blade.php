@@ -12,22 +12,22 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url('/') }}">My Laravel App</a>
+                <a class="navbar-brand" href="{{ url('/') }}">Gandalf Store</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li class="{{ Request::is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li>
+                <li class="{{ Request::is('products') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/products') }}">All Products</a>
                 </li>
-                <li>
+                <li class="{{ Request::is('about') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/about') }}">About</a>
                 </li>
-                <li>
+                <li class="{{ Request::is('contact') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                 </li>
-                <li>
+                <li class="{{ Request::is('order') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/order') }}">Panier</a>
                 </li>
             </ul>

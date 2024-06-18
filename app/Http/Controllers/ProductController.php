@@ -1,14 +1,16 @@
 <?php
 
+// app/Http/Controllers/ProductController.php
+
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    // Méthode pour afficher tous les produits
     public function index(Request $request)
     {
         $categories = Category::all();
@@ -35,5 +37,11 @@ class ProductController extends Controller
         $products = $query->get();
 
         return view('products.index', compact('products', 'categories', 'category_id', 'sort_by'));
+    }
+
+    // Méthode pour afficher les détails d'un produit spécifique
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
     }
 }

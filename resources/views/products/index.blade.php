@@ -1,55 +1,44 @@
+<!-- resources/views/products/index.blade.php -->
+
 @extends('layout')
 
-@section('title', 'All Products')
-
 @section('content')
-    <div class="container">
-        <h1>All Products</h1>
-        
-        <form method="GET" action="{{ url('/products') }}" class="mb-4">
-            <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <label class="sr-only" for="category_id">Category</label>
-                    <select name="category_id" id="category_id" class="form-control mb-2">
-                        <option value="">All Categories</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ (isset($category_id) && $category_id == $category->id) ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="sort_by">Sort By</label>
-                    <select name="sort_by" id="sort_by" class="form-control mb-2">
-                        <option value="">Sort By</option>
-                        <option value="price_asc" {{ (isset($sort_by) && $sort_by == 'price_asc') ? 'selected' : '' }}>Price: Low to High</option>
-                        <option value="price_desc" {{ (isset($sort_by) && $sort_by == 'price_desc') ? 'selected' : '' }}>Price: High to Low</option>
-                        <option value="popularity" {{ (isset($sort_by) && $sort_by == 'popularity') ? 'selected' : '' }}>Popularity</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-2">Filter</button>
-                </div>
-            </div>
-        </form>
+<div class="container">
+    <h1>All Products</h1>
 
-        <div class="row">
-            @foreach($products as $product)
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->name }}</h5>
-                            <p class="card-text">{{ $product->description }}</p>
-                            <p class="card-text"><strong>Price:</strong> {{ $product->price }}</p>
-                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+    <!-- Formulaire de tri -->
+    <form method="GET" action="{{ route('products.index') }}">
+        <div class="form-group">
+            <label for="sort_by">Sort by:</label>
+            <select name="sort_by" id="sort_by" class="form-control" onchange="this.form.submit()">
+                <option value="">Select...</option>
+                <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                <option value="popularity" {{ request('sort_by') == 'popularity' ? 'selected' : '' }}>Popularity</option>
+            </select>
         </div>
+    </form>
+
+    <!-- Liste des produits -->
+    <div class="row">
+        @foreach($products as $product)
+            <div class="col-md-4">
+                <a href="{{ route('products.show', $product->id) }}" class="card card-product mb-4">
+                    <img class="card-img" src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $product->name }}</h5>
+                        <p class="card-text">{{ $product->price }} $</p>
+                        {{-- <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary">View Details</a> --}}
+                        @auth
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST" class="d-inline-block">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Add to Cart</button>
+                            </form>
+                        @endauth
+                    </div>
+                </a>
+            </div>
+        @endforeach
     </div>
+</div>
 @endsection

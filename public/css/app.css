@@ -1,0 +1,65 @@
+
+.navbar {
+  background-color: #343a40;
+  border-radius: 0 0 8px 8px !important;
+}
+
+.navbar-brand {
+  color: #ffffff;
+}
+
+.navbar-brand:hover {
+  color: #f8f9fa;
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #f8f9fa;
+}
+
+.navbar-nav .dropdown-menu {
+  background-color: #343a40; 
+  border: none;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: #ffffff;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #495057;
+  color: #ffffff;
+}
+
+.card.card-product {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  background-color: #fcfcfc;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  outline: transparent 3px solid;
+  outline-offset: 0;
+}
+
+.card.card-product:hover {
+  outline-color: #343a40;
+  outline-offset: 3px;
+}
+
+.card.card-product .card-img {
+
+}
+
+.card.card-product .card-body {
+
+}
