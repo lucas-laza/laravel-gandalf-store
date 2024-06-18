@@ -27,17 +27,17 @@
                 <li class="{{ Request::is('contact') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                 </li>
-                <li class="{{ Request::is('order') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/order') }}">Panier</a>
+                <li class="{{ Request::is('cart') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/cart') }}">Panier</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @guest
                     <li>
-                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                        <a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Register</a>
+                        <a class="nav-link" href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a>
                     </li>
                 @else
                     <li class="dropdown">
@@ -53,7 +53,7 @@
                                     Logout
                                 </a>
 
-                                <form id="logout-form" action="" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </li>
