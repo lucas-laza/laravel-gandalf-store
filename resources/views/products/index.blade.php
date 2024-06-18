@@ -1,5 +1,3 @@
-<!-- resources/views/products/index.blade.php -->
-
 @extends('layout')
 
 @section('content')
@@ -7,7 +5,7 @@
     <h1>All Products</h1>
 
     <!-- Formulaire de tri -->
-    <form method="GET" action="{{ route('products.index') }}">
+    <form method="GET" action="{{ url('/products') }}">
         <div class="form-group">
             <label for="sort_by">Sort by:</label>
             <select name="sort_by" id="sort_by" class="form-control" onchange="this.form.submit()">
@@ -24,7 +22,9 @@
         @foreach($products as $product)
             <div class="col-md-4">
                 <a href="{{ route('products.show', $product->id) }}" class="card card-product mb-4">
-                    <img class="card-img" src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                    {{-- @dump(asset('storage/' . $product->image)) --}}
+                    {{-- {{asset('storage/' . $product->image)}} --}}
+                    <img class="card-img" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->price }} $</p>

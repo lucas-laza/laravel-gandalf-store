@@ -40,24 +40,26 @@
                         <a class="nav-link" href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a>
                     </li>
                 @else
-                    <li class="dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                    @if (Auth::user()->is_admin)
+                        <li>
+                            <a class="nav-link" href="{{ url('admin') }}">Admin</a>
+                        </li>
+                    @endif
+                    <li>
+                        <a id="navbarDropdown" class="nav-link" href="#">
+                            {{ Auth::user()->name }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=""
+                           onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            Logout
                         </a>
 
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href=""
-                                   onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </li>
                 @endguest
             </ul>
@@ -65,6 +67,9 @@
     </nav>
 
     <div class="container mt-4">
+        @if (Str::contains(request()->path(), 'admin'))
+            <a href="{{ url('admin') }}" class="">Back to admin</a>
+        @endif
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>

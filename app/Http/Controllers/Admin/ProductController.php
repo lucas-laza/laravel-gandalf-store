@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -16,59 +17,57 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'price' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image'
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|image'
         ]);
 
         $product = new Product($request->all());
-
         if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('images');
+            $product->image = $request->file('image')->store('products');
         }
-
         $product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+        return redirect()->to('admin/products')->with('success', 'Product created successfully.');
     }
 
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'price' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image'
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+            'image' => 'sometimes|image'
         ]);
 
         $product->fill($request->all());
-
         if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('images');
+            $product->image = $request->file('image')->store('products');
         }
-
         $product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        return redirect()->to('admin/products')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->to('admin/products')->with('success', 'Product deleted successfully.');
     }
 }

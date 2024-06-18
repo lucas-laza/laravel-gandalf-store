@@ -8,6 +8,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -45,5 +50,13 @@ Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name(
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::resource('products', AdminProductController::class);
+    Route::resource('orders', AdminOrderController::class);
+    Route::resource('users', AdminUserController::class);
+    Route::resource('coupons', AdminCouponController::class);
+});
 
 Route::get('/category/{code}', [CategoryController::class, 'show'])->name('category.show');
