@@ -19,7 +19,7 @@
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->user->name }}</td>
                     <td>{{ $order->is_completed ? 'Completed' : 'Pending' }}</td>
-                    <td>{{ $order->total }}</td>
+                    <td>{{ $totals[$order->id] }}€</td>
                     <td>
                         <a href="{{ url('admin/orders/' . $order->id) }}" class="btn btn-sm btn-info">View</a>
                         <form action="{{ url('admin/orders/' . $order->id) }}" method="POST" style="display:inline-block;">

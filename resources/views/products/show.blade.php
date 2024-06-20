@@ -18,6 +18,6 @@
         </form>
     @endauth
     <br>
-    <a href="{{ route('products.index') }}" class="btn btn-secondary">Back to All Products</a>
+    <a href="{{ url('/products') }}" class="btn btn-secondary">Back to All Products</a>
 </div>
 @endsection

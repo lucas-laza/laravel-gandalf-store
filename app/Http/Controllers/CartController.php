@@ -42,8 +42,20 @@ class CartController extends BaseController
 
         $products = $order ? $order->products : [];
 
-        return view('cart.view', compact('products', 'order'));
+        $total = 0;
+        foreach ($products as $product) {
+            $total += $product->pivot->quantity * $product->price;
+        }
+
+        $discount = 0;
+        if ($order && $order->coupon) {
+            $discount = ($total * $order->coupon->discount_percent) / 100;
+            $total -= $discount;
+        }
+
+        return view('cart.view', compact('products', 'order', 'total', 'discount'));
     }
+
 
     public function applyCoupon(Request $request)
     {

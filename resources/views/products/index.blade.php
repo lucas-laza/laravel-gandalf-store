@@ -21,7 +21,7 @@
     <div class="row">
         @foreach($products as $product)
             <div class="col-md-4">
-                <a href="{{ route('products.show', $product->id) }}" class="card card-product mb-4">
+                <a href="{{ url('products', $product->id) }}" class="card card-product mb-4">
                     {{-- @dump(asset('storage/' . $product->image)) --}}
                     {{-- {{asset('storage/' . $product->image)}} --}}
                     <img class="card-img" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">

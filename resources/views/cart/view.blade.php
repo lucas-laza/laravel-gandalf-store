@@ -7,6 +7,7 @@
 @section('content')
 <div class="container">
     <h1>Your Cart</h1>
+    <h2>Total : {{ $total }}€</h2>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

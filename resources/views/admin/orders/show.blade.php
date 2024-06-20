@@ -6,7 +6,7 @@
     <p><strong>Order ID:</strong> {{ $order->id }}</p>
     <p><strong>User:</strong> {{ $order->user->name }}</p>
     <p><strong>Status:</strong> {{ $order->is_completed ? 'Completed' : 'Pending' }}</p>
-    <p><strong>Total:</strong> {{ $order->total }}</p>
+    <p><strong>Total:</strong> {{ $total }}€</p>
 
     <h2>Products</h2>
     <ul>
